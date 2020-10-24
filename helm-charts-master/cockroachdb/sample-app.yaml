@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:                    # Optional lables
+    app: cockroach-sample
+  name: cockroach-sample      # name of the Pod
+  namespace: cockroachdb        # Nmaepsace of k8s to deploy in
+spec:
+  restartPolicy: Never			# So it runs only 1 time. otherwise it will keep running over and over again.
+  containers:
+  - image: docker.io/usamaahmadkhan/cockroach-sample:v0.9 # Corresponds to <docker_registry_url>/<docker_registry_username>/<image_name>:<tag>
+    name: cockroach-sample	
+    env:    # Env vars for connecting to cockroachdb
+    - name: ROACH_USER
+      value: root         # user to use for access
+    - name: ROACH_HOST
+      value: cockroach-cockroachdb.cockroachdb  # <service_name>.<namespace_name>
+    - name: ROACH_DATABASE
+      value: defaultdb     # db to connect to 
+    - name: ROACH_PORT
+      value: "26257"		# Port at which db is running
